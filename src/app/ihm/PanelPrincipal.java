@@ -2,13 +2,21 @@ package app.ihm;
 
 import app.Controleur;
 
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
 import java.awt.BorderLayout;
 
-import javax.swing.JPanel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class PanelPrincipal extends JPanel
+public class PanelPrincipal extends JPanel implements ActionListener
 {
 	private Controleur ctrl;
+
+	private JButton btnImporter;
+	private JButton btnAnalyser;
 
 	public PanelPrincipal(Controleur ctrl)
 	{
@@ -16,16 +24,45 @@ public class PanelPrincipal extends JPanel
 
 		this.setLayout(new BorderLayout());
 
-		/* ------------------------ */
-		/*  Création des composants */
-		/* ------------------------ */
+		this.btnImporter = new JButton("Importer deux fichiers");
+		this.btnAnalyser = new JButton("Analyser");
 
-		/* ------------------------------ */
-		/*  Positionnement des composants */
-		/* ------------------------------ */
+		this.add(btnImporter, BorderLayout.NORTH);
+		this.add(btnAnalyser, BorderLayout.SOUTH);
 
-		/* -------------------------- */
-		/*  Activation des composants */
-		/* -------------------------- */
+		this.btnImporter.addActionListener(this);
+		this.btnAnalyser.addActionListener(this);
+	}
+
+	public void actionPerformed(ActionEvent e)
+	{
+		if (e.getSource() == this.btnImporter)
+		{
+			String p1 = selectionnerFichier("Premier fichier");
+			if (p1 == null) { return; }
+
+			String p2 = selectionnerFichier("Second fichier");
+			if (p2 == null) { return; }
+
+			this.ctrl.importer(p1, p2);
+		}
+
+		if (e.getSource() == this.btnAnalyser)
+		{
+			this.ctrl.analyser();
+		}
+	}
+
+	private String selectionnerFichier(String titre)
+	{
+		JFileChooser fc = new JFileChooser();
+		fc.setDialogTitle(titre);
+
+		if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
+		{
+			return fc.getSelectedFile().getAbsolutePath();
+		}
+
+		return null;
 	}
 }
