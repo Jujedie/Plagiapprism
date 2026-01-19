@@ -10,7 +10,7 @@ public class FramePrincipal extends JFrame
 
 	public FramePrincipal(Controleur ctrl)
 	{
-		this.setTitle("Accueil");
+		this.setTitle("Plagiapprism");
 		this.setSize(750, 400);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
