@@ -5,6 +5,7 @@ import app.Controleur;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import java.awt.BorderLayout;
 
@@ -45,11 +46,13 @@ public class PanelPrincipal extends JPanel implements ActionListener
 			if (p2 == null) { return; }
 
 			this.ctrl.setTextes(p1, p2);
+			JOptionPane.showMessageDialog(this, "Fichiers importés avec succès !", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
 		}
 
 		if (e.getSource() == this.btnAnalyser)
 		{
-			this.ctrl.analyser();
+			double similarite = this.ctrl.getSimilarite();
+			JOptionPane.showMessageDialog(this, String.format("Similarité : %.2f%%", similarite) + " - " + this.ctrl.getInterpretation(similarite), "Résultat de l'analyse", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
