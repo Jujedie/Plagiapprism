@@ -31,7 +31,7 @@ public class LecteurFichier
 	//-----------------------
 	// Nettoyage du texte
 	//-----------------------
-	public static String nettoyerTexte( String texte )
+	private static String nettoyerTexte( String texte )
 	{
 		// Normalisation, on ne garde que les lettres et chiffres
 		return texte.toLowerCase().replaceAll("[^a-z0-9]", " ");
