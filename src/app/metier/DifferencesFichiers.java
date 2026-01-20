@@ -22,10 +22,10 @@ public class DifferencesFichiers
 		this.texte2 = LecteurFichier.lireFichier( pathFichier2 );
 	}
 
-	public void setTextes( String fichier1, String fichier2 )
+	public void setTextes( String pathFichier1, String pathFichier2 )
 	{
-		this.texte1 = fichier1;
-		this.texte2 = fichier2;
+		this.texte1 = LecteurFichier.lireFichier( pathFichier1 );
+		this.texte2 = LecteurFichier.lireFichier( pathFichier2 );
 	}
 
 	public double calculerSimilarite()

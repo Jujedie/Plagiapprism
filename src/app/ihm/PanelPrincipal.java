@@ -44,7 +44,7 @@ public class PanelPrincipal extends JPanel implements ActionListener
 			String p2 = selectionnerFichier("Second fichier");
 			if (p2 == null) { return; }
 
-			this.ctrl.importer(p1, p2);
+			this.ctrl.setTextes(p1, p2);
 		}
 
 		if (e.getSource() == this.btnAnalyser)

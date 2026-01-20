@@ -14,9 +14,9 @@ public class Controleur
 		new FramePrincipal(this);
 	}
 
-	public void importer(String fichier1, String fichier2)
+	public void setTextes(String pathFichier1, String pathFichier2)
 	{
-		this.differencesFichiers.setTextes( fichier1, fichier2 );
+		this.differencesFichiers.setTextes( pathFichier1, pathFichier2 );
 	}
 
 	public void analyser()
