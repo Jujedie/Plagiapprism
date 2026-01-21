@@ -16,11 +16,8 @@ public class DifferencesFichiers
 		this.texte2 = "";
 	}
 
-	public DifferencesFichiers( String pathFichier1, String pathFichier2 )
-	{
-		this.texte1 = LecteurFichier.lireFichier( pathFichier1 );
-		this.texte2 = LecteurFichier.lireFichier( pathFichier2 );
-	}
+	public String getTexte1() { return this.texte1; }
+	public String getTexte2() { return this.texte2; }
 
 	public void setTextes( String pathFichier1, String pathFichier2 )
 	{

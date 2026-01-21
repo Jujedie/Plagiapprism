@@ -14,6 +14,16 @@ public class Controleur
 		new FramePrincipal(this);
 	}
 
+	public String getTexteGauche()
+	{
+		return this.differencesFichiers.getTexte1();
+	}
+
+	public String getTexteDroite()
+	{
+		return this.differencesFichiers.getTexte2();
+	}
+
 	public void setTextes(String pathFichier1, String pathFichier2)
 	{
 		this.differencesFichiers.setTextes( pathFichier1, pathFichier2 );

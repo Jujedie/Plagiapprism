@@ -3,6 +3,8 @@ package app.ihm;
 import app.Controleur;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -10,6 +12,7 @@ import javax.swing.JOptionPane;
 import java.awt.BorderLayout;
 
 import java.awt.FileDialog;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -21,6 +24,9 @@ public class PanelPrincipal extends JPanel implements ActionListener
 	private JButton btnImporter;
 	private JButton btnAnalyser;
 
+	private JTextArea txtAreaGauche;
+	private JTextArea txtAreaDroite;
+
 	public PanelPrincipal(Controleur ctrl)
 	{
 		this.ctrl = ctrl;
@@ -30,24 +36,55 @@ public class PanelPrincipal extends JPanel implements ActionListener
 		this.btnImporter = new JButton("Importer deux fichiers");
 		this.btnAnalyser = new JButton("Analyser");
 
-		this.add(btnImporter, BorderLayout.NORTH);
-		this.add(btnAnalyser, BorderLayout.SOUTH);
+		// Création et configuration du JPanel texte
+		JPanel panelTexte = new JPanel();
+		panelTexte.setLayout(new GridLayout(1, 2));
+
+		// Création des zones de textes
+		this.txtAreaGauche = new JTextArea(this.ctrl.getTexteGauche());
+		this.txtAreaDroite = new JTextArea(this.ctrl.getTexteDroite());
+
+
+		// Configuration des zones de textes
+		this.txtAreaGauche.setColumns(40);
+		this.txtAreaGauche.setLineWrap(true);
+		this.txtAreaDroite.setColumns(40);
+		this.txtAreaDroite.setLineWrap(true);
+
+		// Création des JScrollPane
+		JScrollPane scrollPaneGauche = new JScrollPane(this.txtAreaGauche);
+		JScrollPane scrollPaneDroite = new JScrollPane(this.txtAreaDroite);
+
+
+		panelTexte.add(scrollPaneGauche);
+		panelTexte.add(scrollPaneDroite);
+
+		this.add(this.btnImporter, BorderLayout.NORTH );
+		this.add(panelTexte      , BorderLayout.CENTER);
+		this.add(this.btnAnalyser, BorderLayout.SOUTH );
 
 		this.btnImporter.addActionListener(this);
 		this.btnAnalyser.addActionListener(this);
+	}
+
+	public void majIHM()
+	{
+		this.txtAreaGauche.setText(this.ctrl.getTexteGauche());
+		this.txtAreaDroite.setText(this.ctrl.getTexteDroite());
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == this.btnImporter)
 		{
-			String p1 = selectionnerFichier("Premier fichier");
+			String p1 = this.selectionnerFichier("Premier fichier");
 			if (p1 == null) { return; }
 
-			String p2 = selectionnerFichier("Second fichier");
+			String p2 = this.selectionnerFichier("Second fichier");
 			if (p2 == null) { return; }
 
 			this.ctrl.setTextes(p1, p2);
+			this.majIHM();
 			JOptionPane.showMessageDialog(this, "Fichiers importés avec succès !", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
 		}
 
