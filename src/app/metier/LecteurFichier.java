@@ -5,6 +5,9 @@ import java.io.FileReader;
 
 public class LecteurFichier
 {
+	// -----------------------
+	// Lecture du fichier
+	// -----------------------
 	public static String lireFichier(String cheminFichier)
 	{
 		try
@@ -31,8 +34,7 @@ public class LecteurFichier
 			contenu = new StringBuilder( LecteurFichier.nettoyerTexte(contenu.toString()));
 
 			return contenu.toString();
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			e.printStackTrace();
 		}
