@@ -72,8 +72,20 @@ public class PanelPrincipal extends JPanel implements ActionListener
 
 	public void majIHM()
 	{
-		this.txtAreaGauche.setText(this.ctrl.getTexteGauche());
-		this.txtAreaDroite.setText(this.ctrl.getTexteDroite());
+		this.txtAreaGauche.setText(limiterTexte(this.ctrl.getTexteGauche()));
+		this.txtAreaDroite.setText(limiterTexte(this.ctrl.getTexteDroite()));
+	}
+
+	private String limiterTexte(String texte)
+	{
+		final int MAX_CHARS = 500000; // 500 000 caractères maximum
+		
+		if (texte == null || texte.length() <= MAX_CHARS)
+		{
+			return texte;
+		}
+		
+		return texte.substring(0, MAX_CHARS) + "\n\n[... Texte tronqué - " + (texte.length() - MAX_CHARS) + " caractères omis pour des raisons de performance ...]";
 	}
 
 	public void actionPerformed(ActionEvent e)
