@@ -85,7 +85,7 @@ public class PanelPrincipal extends JPanel implements ActionListener
 			return texte;
 		}
 		
-		return texte.substring(0, MAX_CHARS) + "\n\n[... Texte tronqué - " + (texte.length() - MAX_CHARS) + " caractères omis pour des raisons de performance ...]";
+		return texte.substring(0, MAX_CHARS) + "\n\n[... Texte tronqué - " + (texte.length() - MAX_CHARS) + " caractères pour des raisons d'affichage'...]";
 	}
 
 	public void actionPerformed(ActionEvent e)
