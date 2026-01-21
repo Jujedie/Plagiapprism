@@ -10,11 +10,12 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import java.awt.BorderLayout;
-
 import java.awt.FileDialog;
 import java.awt.GridLayout;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.io.File;
 
 public class PanelPrincipal extends JPanel implements ActionListener

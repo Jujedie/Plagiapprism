@@ -57,7 +57,7 @@ public class DifferencesFichiers
 	{
 		String texteNettoye = texte.toLowerCase().replaceAll("[^a-zàâäéèêëïîôùûü0-9\\s]", "");
 
-		Set<String> mots = new HashSet<>();
+		Set<String> mots = new HashSet<String>();
 		for (String m : texteNettoye.split("\\s+"))
 		{
 			if (!m.isEmpty()) mots.add(m);
@@ -70,10 +70,10 @@ public class DifferencesFichiers
 	{
 		if (s1.isEmpty() && s2.isEmpty()) { return 1.0; }
 
-		Set<String> intersection = new HashSet<>(s1);
+		Set<String> intersection = new HashSet<String>(s1);
 		intersection.retainAll(s2);
 
-		Set<String> union = new HashSet<>(s1);
+		Set<String> union = new HashSet<String>(s1);
 		union.addAll(s2);
 
 		return (double) intersection.size() / union.size();
