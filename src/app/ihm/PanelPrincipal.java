@@ -49,8 +49,10 @@ public class PanelPrincipal extends JPanel implements ActionListener
 		// Configuration des zones de textes
 		this.txtAreaGauche.setColumns(40);
 		this.txtAreaGauche.setLineWrap(true);
+		this.txtAreaGauche.setEditable(false);
 		this.txtAreaDroite.setColumns(40);
 		this.txtAreaDroite.setLineWrap(true);
+		this.txtAreaDroite.setEditable(false);
 
 		// Création des JScrollPane
 		JScrollPane scrollPaneGauche = new JScrollPane(this.txtAreaGauche);
