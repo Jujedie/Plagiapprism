@@ -19,7 +19,10 @@ public class LecteurFichier
 			// A chaque ligne, on ajoute un espace
 			String ligne;
 			while ((ligne = br.readLine()) != null)
-				contenu.append(ligne).append(" ");
+				if ( ligne != "" )
+					contenu.append(ligne).append(" ");
+				else
+					contenu.append(ligne).append("");
 	
 			br.close();
 	
@@ -41,7 +44,15 @@ public class LecteurFichier
 	//-----------------------
 	private static String nettoyerTexte( String texte )
 	{
+		String texteNettoye = texte.toLowerCase();
+
 		// Normalisation, on ne garde que les lettres et chiffres
-		return texte.toLowerCase().replaceAll("[^a-z0-9]", " ");
+		texteNettoye.replaceAll("[àâä]" , "a");
+		texteNettoye.replaceAll("[éèêë]", "e");
+		texteNettoye.replaceAll("[ïî]"  , "i");
+		texteNettoye.replaceAll("ô"     , "o");
+		texteNettoye.replaceAll("[ùûü]" , "u");
+
+		return texteNettoye;
 	}
 }
