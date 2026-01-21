@@ -16,22 +16,18 @@ public class LecteurFichier
 
 			BufferedReader br = new BufferedReader(new FileReader(cheminFichier));
 
+			// A chaque ligne, on ajoute un espace
 			String ligne;
 			while ((ligne = br.readLine()) != null)
-			{
-				if ( ligne != "" )
-				{
+				if (ligne != "")
 					contenu.append(ligne).append(" ");
-				}
 				else
-				{
 					contenu.append(ligne).append("");
-				}
-			}
 
 			br.close();
 
-			contenu = new StringBuilder( LecteurFichier.nettoyerTexte(contenu.toString()));
+			// Nettoyage
+			contenu = new StringBuilder(LecteurFichier.nettoyerTexte(contenu.toString()));
 
 			return contenu.toString();
 		} catch (Exception e)
@@ -42,15 +38,19 @@ public class LecteurFichier
 		return "";
 	}
 
-	private static String nettoyerTexte( String texte )
+	// -----------------------
+	// Nettoyage du texte
+	// -----------------------
+	private static String nettoyerTexte(String texte)
 	{
 		String texteNettoye = texte.toLowerCase();
 
-		texteNettoye.replaceAll("[àâä]" , "a");
-		texteNettoye.replaceAll("[éèêë]", "e");
-		texteNettoye.replaceAll("[ïî]"  , "i");
-		texteNettoye.replaceAll("ô"     , "o");
-		texteNettoye.replaceAll("[ùûü]" , "u");
+		texteNettoye = texteNettoye.replaceAll("[àâä]", "a");
+		texteNettoye = texteNettoye.replaceAll("[éèêë]", "e");
+		texteNettoye = texteNettoye.replaceAll("[ïî]", "i");
+		texteNettoye = texteNettoye.replaceAll("[ô]", "o");
+		texteNettoye = texteNettoye.replaceAll("[ùûü]", "u");
+		texteNettoye = texteNettoye.replaceAll("[^a-z0-9\\s]", " ");
 
 		return texteNettoye;
 	}
