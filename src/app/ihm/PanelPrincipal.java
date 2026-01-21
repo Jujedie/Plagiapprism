@@ -4,13 +4,15 @@ import app.Controleur;
 
 import javax.swing.JPanel;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import java.awt.BorderLayout;
 
+import java.awt.FileDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public class PanelPrincipal extends JPanel implements ActionListener
 {
@@ -58,12 +60,17 @@ public class PanelPrincipal extends JPanel implements ActionListener
 
 	private String selectionnerFichier(String titre)
 	{
-		JFileChooser fc = new JFileChooser();
-		fc.setDialogTitle(titre);
+		FileDialog fd = new FileDialog((JFrame) null, titre, FileDialog.LOAD);
 
-		if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
+		fd.setVisible(true);
+
+		// Si l’utilisateur a sélectionné un fichier
+		String file = fd.getFile();
+		String dir = fd.getDirectory();
+
+		if (file != null && dir != null)
 		{
-			return fc.getSelectedFile().getAbsolutePath();
+			return new File(dir, file).getAbsolutePath();
 		}
 
 		return null;
