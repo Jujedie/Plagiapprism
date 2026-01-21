@@ -1,6 +1,7 @@
 package app;
 
 import app.metier.DifferencesFichiers;
+
 import app.ihm.FramePrincipal;
 
 public class Controleur
@@ -26,7 +27,7 @@ public class Controleur
 
 	public void setTextes(String pathFichier1, String pathFichier2)
 	{
-		this.differencesFichiers.setTextes( pathFichier1, pathFichier2 );
+		this.differencesFichiers.setTextes(pathFichier1, pathFichier2);
 	}
 
 	public void analyser()
