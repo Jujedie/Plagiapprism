@@ -2,26 +2,45 @@ package app.ihm;
 
 import app.Controleur;
 
-import javax.swing.*;
-import javax.swing.text.*;
-import java.awt.*;
-import java.awt.event.*;
 import java.io.File;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FileDialog;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
+
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 public class PanelPrincipal extends JPanel implements ActionListener
 {
-	private Controleur controleur;
+	private Controleur ctrl;
 
 	private JButton   btnChargerFichiers;
 	private JButton   btnAnalyser;
 	private JLabel    lblResultat;
 
-	private JTextPane zoneTexteOriginal;
-	private JTextPane zoneTexteSuspecte;
+	private JTextPane txtOriginal;
+	private JTextPane txtSuspect;
 
-	public PanelPrincipal(Controleur controleur)
+	public PanelPrincipal(Controleur ctrl)
 	{
-		this.controleur = controleur;
+		this.ctrl = ctrl;
 
 		this.setLayout(new BorderLayout(10, 10));
 		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -34,8 +53,8 @@ public class PanelPrincipal extends JPanel implements ActionListener
 		this.btnAnalyser = new JButton("Analyser");
 		this.lblResultat = new JLabel(" ");
 
-		this.zoneTexteOriginal = new JTextPane();
-		this.zoneTexteSuspecte = new JTextPane();
+		this.txtOriginal = new JTextPane();
+		this.txtSuspect = new JTextPane();
 
 		panelHaut.setLayout  (new FlowLayout(FlowLayout.CENTER, 15, 5));
 		panelCentre.setLayout(new GridLayout(1, 2, 10, 0));
@@ -47,13 +66,13 @@ public class PanelPrincipal extends JPanel implements ActionListener
 		this.btnAnalyser.setFont         (new Font("Arial", Font.BOLD, 13));
 		this.lblResultat.setFont         (new Font("Arial", Font.ITALIC, 12));
 
-		this.zoneTexteOriginal.setEditable(false);
-		this.zoneTexteSuspecte.setEditable(false);
-		this.zoneTexteOriginal.setFont(new Font("Monospaced", Font.PLAIN, 12));
-		this.zoneTexteSuspecte.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		this.txtOriginal.setEditable(false);
+		this.txtSuspect.setEditable(false);
+		this.txtOriginal.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		this.txtSuspect.setFont(new Font("Monospaced", Font.PLAIN, 12));
 
-		JScrollPane scrollGauche = new JScrollPane(this.zoneTexteOriginal);
-		JScrollPane scrollDroite = new JScrollPane(this.zoneTexteSuspecte);
+		JScrollPane scrollGauche = new JScrollPane(this.txtOriginal);
+		JScrollPane scrollDroite = new JScrollPane(this.txtSuspect);
 
 		scrollGauche.setBorder(BorderFactory.createTitledBorder("Texte original"));
 		scrollDroite.setBorder(BorderFactory.createTitledBorder("Texte suspect"));
@@ -76,8 +95,8 @@ public class PanelPrincipal extends JPanel implements ActionListener
 
 	public void mettreAJourAffichage()
 	{
-		this.zoneTexteOriginal.setText(this.controleur.getTexteOriginal());
-		this.zoneTexteSuspecte.setText(this.controleur.getTexteSuspecte());
+		this.txtOriginal.setText(this.ctrl.getTexteOriginal());
+		this.txtSuspect.setText(this.ctrl.getTexteSuspecte());
 	}
 
 	public void actionPerformed(ActionEvent e)
@@ -91,7 +110,7 @@ public class PanelPrincipal extends JPanel implements ActionListener
 			if (cheminFichier2 == null) return;
 
 			this.lblResultat.setText("  Chargement des fichiers en cours...");
-			this.controleur.chargerFichiers(cheminFichier1, cheminFichier2);
+			this.ctrl.chargerFichiers(cheminFichier1, cheminFichier2);
 			this.mettreAJourAffichage();
 			this.lblResultat.setText("  Fichiers charges avec succes. Pret pour l'analyse.");
 		}
@@ -99,10 +118,10 @@ public class PanelPrincipal extends JPanel implements ActionListener
 		if (e.getSource() == this.btnAnalyser)
 		{
 			this.lblResultat.setText("  Analyse en cours...");
-			this.controleur.analyser();
+			this.ctrl.analyser();
 			
-			int  nombreSequences = this.controleur.getNombreSequencesPlagiees();
-			long tempsExecution  = this.controleur.getTempsExecution();
+			int  nombreSequences = this.ctrl.getNombreSequencesPlagiees();
+			long tempsExecution  = this.ctrl.getTempsExecution();
 
 			if (nombreSequences == 0)
 			{
@@ -110,7 +129,7 @@ public class PanelPrincipal extends JPanel implements ActionListener
 			}
 			else
 			{
-				surlignerSequencesPlagiees();
+				this.surlignerSequencesPlagiees();
 				this.lblResultat.setText("  " + nombreSequences + " sequence(s) plagiee(s) detectee(s) - Analyse terminee en " + tempsExecution + " ms");
 			}
 		}
@@ -118,18 +137,18 @@ public class PanelPrincipal extends JPanel implements ActionListener
 
 	private void surlignerSequencesPlagiees()
 	{
-		StyledDocument document = this.zoneTexteSuspecte.getStyledDocument();
+		StyledDocument document = this.txtSuspect.getStyledDocument();
 
-		Style styleNormal = this.zoneTexteSuspecte.addStyle("Normal", null);
+		Style styleNormal = this.txtSuspect.addStyle("Normal", null);
 		StyleConstants.setBackground(styleNormal, Color.WHITE);
 		document.setCharacterAttributes(0, document.getLength(), styleNormal, true);
 
-		Style stylePlagiat = this.zoneTexteSuspecte.addStyle("Plagiat", null);
+		Style stylePlagiat = this.txtSuspect.addStyle("Plagiat", null);
 		StyleConstants.setBackground(stylePlagiat, Color.YELLOW);
 		StyleConstants.setBold(stylePlagiat, true);
 
-		int[] positionsDebut = this.controleur.getPositionsDebut();
-		int[] positionsFin   = this.controleur.getPositionsFin();
+		int[] positionsDebut = this.ctrl.getPositionsDebut();
+		int[] positionsFin   = this.ctrl.getPositionsFin();
 
 		for (int i = 0; i < positionsDebut.length; i++)
 		{
