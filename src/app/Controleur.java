@@ -31,7 +31,7 @@ public class Controleur
 
 	public void analyser()
 	{
-		this.detecteur.detecterPlagiats();
+		this.detecteur.analyser();
 	}
 
 	public int getNombreSequencesPlagiees()
@@ -39,12 +39,12 @@ public class Controleur
 		return this.detecteur.getNombreSequences();
 	}
 
-	public int[] getPositionsDebut()
+	public int[] getTabPositionsDebut()
 	{
 		return this.detecteur.tabPositionsDebut;
 	}
 
-	public int[] getPositionsFin()
+	public int[] getTabPositionsFin()
 	{
 		return this.detecteur.tabPositionsFin;
 	}

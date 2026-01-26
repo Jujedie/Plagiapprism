@@ -24,7 +24,7 @@ public class DetecteurPlagiat
 		this.texteSuspecte = LecteurFichier.lireFichier(cheminFichier2);
 	}
 
-	public void detecterPlagiats()
+	public void analyser()
 	{
 		long tempsDebut = System.currentTimeMillis();
 

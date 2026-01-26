@@ -147,8 +147,8 @@ public class PanelPrincipal extends JPanel implements ActionListener
 		StyleConstants.setBackground(stylePlagiat, Color.YELLOW);
 		StyleConstants.setBold(stylePlagiat, true);
 
-		int[] positionsDebut = this.ctrl.getPositionsDebut();
-		int[] positionsFin   = this.ctrl.getPositionsFin();
+		int[] positionsDebut = this.ctrl.getTabPositionsDebut();
+		int[] positionsFin   = this.ctrl.getTabPositionsFin();
 
 		for (int i = 0; i < positionsDebut.length; i++)
 		{
