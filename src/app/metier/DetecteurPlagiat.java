@@ -33,7 +33,9 @@ public class DetecteurPlagiat
 	public void chargerTextes(String cheminFichier1, String cheminFichier2)
 	{
 		this.texteOriginal = LecteurFichier.lireFichier(cheminFichier1);
+		this.texteOriginal = DetecteurPlagiat.nettoyerTexte(this.texteOriginal);
 		this.texteSuspecte = LecteurFichier.lireFichier(cheminFichier2);
+		this.texteSuspecte = DetecteurPlagiat.nettoyerTexte(this.texteSuspecte);
 	}
 
 	public void analyser()
@@ -148,5 +150,18 @@ public class DetecteurPlagiat
 			lstMots.add(motsTrouves.group());
 			lstPositions.add(motsTrouves.start());
 		}
+	}
+
+	private static String nettoyerTexte( String texte )
+	{
+		String texteNettoye = texte.toLowerCase();
+
+		texteNettoye = texteNettoye.replaceAll("[àâä]" , "a");
+		texteNettoye = texteNettoye.replaceAll("[éèêë]", "e");
+		texteNettoye = texteNettoye.replaceAll("[ïî]"  , "i");
+		texteNettoye = texteNettoye.replaceAll("ô"     , "o");
+		texteNettoye = texteNettoye.replaceAll("[ùûü]" , "u");
+
+		return texteNettoye;
 	}
 }
