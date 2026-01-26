@@ -10,13 +10,25 @@ import java.util.regex.Pattern;
 
 public class DetecteurPlagiat
 {
-	private String texteOriginal = "";
-	private String texteSuspecte = "";
+	private String texteOriginal;
+	private String texteSuspecte;
 
-	public int[] tabPositionsDebut = new int[0];
-	public int[] tabPositionsFin   = new int[0];
+	private int[] tabPositionsDebut;
+	private int[] tabPositionsFin  ;
 
-	private long tempsExecution = 0;
+	private long tempsExecution;
+
+
+	public DetecteurPlagiat()
+	{
+		this.texteOriginal = "";
+		this.texteSuspecte = "";
+
+		this.tabPositionsDebut = new int[0];
+		this.tabPositionsFin   = new int[0];
+
+		this.tempsExecution = 0;
+	}
 
 	public void chargerTextes(String cheminFichier1, String cheminFichier2)
 	{
@@ -30,23 +42,23 @@ public class DetecteurPlagiat
 
 		if (texteOriginal.isEmpty() || texteSuspecte.isEmpty()) return;
 
-		List<String>  lstMotsOriginal          = new ArrayList<>();
-		List<Integer> lstPositionsMotsOriginal = new ArrayList<>();
-		extraire(texteOriginal, lstMotsOriginal, lstPositionsMotsOriginal);
+		List<String>  lstMotsOriginal          = new ArrayList<String >();
+		List<Integer> lstPositionsMotsOriginal = new ArrayList<Integer>();
+		this.extraire(texteOriginal, lstMotsOriginal, lstPositionsMotsOriginal);
 		
-		List<String>  lstMotsSuspecte          = new ArrayList<>();
-		List<Integer> lstPositionsMotsSuspecte = new ArrayList<>();
-		extraire(texteSuspecte, lstMotsSuspecte, lstPositionsMotsSuspecte);
+		List<String>  lstMotsSuspecte          = new ArrayList<String >();
+		List<Integer> lstPositionsMotsSuspecte = new ArrayList<Integer>();
+		this.extraire(texteSuspecte, lstMotsSuspecte, lstPositionsMotsSuspecte);
 
-		Map<String, List<Integer>> mapIndexMotsOriginal = new HashMap<>();
+		Map<String, List<Integer>> mapIndexMotsOriginal = new HashMap<String, List<Integer>>();
 		for (int indexMot = 0; indexMot < lstMotsOriginal.size(); indexMot++)
 		{
 			String mot = lstMotsOriginal.get(indexMot);
-			mapIndexMotsOriginal.computeIfAbsent(mot, k -> new ArrayList<>()).add(indexMot);
+			mapIndexMotsOriginal.computeIfAbsent(mot, k -> new ArrayList<Integer>()).add(indexMot);
 		}
 
-		List<Integer> lstPositionsDebutPlagiat = new ArrayList<>();
-		List<Integer> lstPositionsFinPlagiat   = new ArrayList<>();
+		List<Integer> lstPositionsDebutPlagiat = new ArrayList<Integer>();
+		List<Integer> lstPositionsFinPlagiat   = new ArrayList<Integer>();
 
 		boolean[] motsDejaUtilises = new boolean[lstMotsSuspecte.size()];
 
@@ -105,6 +117,16 @@ public class DetecteurPlagiat
 	public String getTexteSuspecte()
 	{
 		return this.texteSuspecte;
+	}
+
+	public int[] getTabPositionsDebut()
+	{
+		return this.tabPositionsDebut;
+	}
+
+	public int[] getTabPositionsFin()
+	{
+		return this.tabPositionsFin;
 	}
 
 	public int getNombreSequences()

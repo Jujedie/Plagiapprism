@@ -12,8 +12,8 @@ public class LecteurFichier
 	{
 		try
 		{
-			StringBuilder contenu = new StringBuilder();
-			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(cheminFichier), StandardCharsets.UTF_8));
+			StringBuilder  contenu = new StringBuilder();
+			BufferedReader br      = new BufferedReader(new InputStreamReader(new FileInputStream(cheminFichier), StandardCharsets.UTF_8));
 
 			String ligne;
 			while ((ligne = br.readLine()) != null)

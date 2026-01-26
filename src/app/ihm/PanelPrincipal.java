@@ -22,7 +22,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
-
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
@@ -61,21 +60,23 @@ public class PanelPrincipal extends JPanel implements ActionListener
 		panelBas.setLayout   (new FlowLayout(FlowLayout.CENTER));
 
 		this.btnChargerFichiers.setPreferredSize(new Dimension(200, 35));
-		this.btnAnalyser.setPreferredSize(new Dimension(200, 35));
-		this.btnChargerFichiers.setFont  (new Font("Arial", Font.BOLD, 13));
-		this.btnAnalyser.setFont         (new Font("Arial", Font.BOLD, 13));
-		this.lblResultat.setFont         (new Font("Arial", Font.ITALIC, 12));
+		this.btnAnalyser       .setPreferredSize(new Dimension(200, 35));
+
+		this.btnChargerFichiers.setFont(new Font("Arial", Font.BOLD  , 13));
+		this.btnAnalyser       .setFont(new Font("Arial", Font.BOLD  , 13));
+		this.lblResultat       .setFont(new Font("Arial", Font.ITALIC, 12));
+
 
 		this.txtOriginal.setEditable(false);
-		this.txtSuspect.setEditable(false);
+		this.txtSuspect .setEditable(false);
 		this.txtOriginal.setFont(new Font("Monospaced", Font.PLAIN, 12));
-		this.txtSuspect.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		this.txtSuspect .setFont(new Font("Monospaced", Font.PLAIN, 12));
 
 		JScrollPane scrollGauche = new JScrollPane(this.txtOriginal);
 		JScrollPane scrollDroite = new JScrollPane(this.txtSuspect);
 
 		scrollGauche.setBorder(BorderFactory.createTitledBorder("Texte original"));
-		scrollDroite.setBorder(BorderFactory.createTitledBorder("Texte suspect"));
+		scrollDroite.setBorder(BorderFactory.createTitledBorder("Texte suspect" ));
 
 		panelHaut.add(this.btnChargerFichiers);
 		panelHaut.add(this.btnAnalyser);
@@ -85,18 +86,18 @@ public class PanelPrincipal extends JPanel implements ActionListener
 
 		panelBas.add(this.lblResultat);
 
-		this.add(panelHaut, BorderLayout.NORTH);
+		this.add(panelHaut  , BorderLayout.NORTH );
 		this.add(panelCentre, BorderLayout.CENTER);
-		this.add(panelBas, BorderLayout.SOUTH);
+		this.add(panelBas   , BorderLayout.SOUTH );
 
 		this.btnChargerFichiers.addActionListener(this);
-		this.btnAnalyser.addActionListener(this);
+		this.btnAnalyser       .addActionListener(this);
 	}
 
 	public void mettreAJourAffichage()
 	{
 		this.txtOriginal.setText(this.ctrl.getTexteOriginal());
-		this.txtSuspect.setText(this.ctrl.getTexteSuspecte());
+		this.txtSuspect .setText(this.ctrl.getTexteSuspecte());
 	}
 
 	public void actionPerformed(ActionEvent e)
@@ -137,6 +138,12 @@ public class PanelPrincipal extends JPanel implements ActionListener
 
 	private void surlignerSequencesPlagiees()
 	{
+		int longueurDocument;
+		int positionDebut;
+		int positionFin;
+		int longueur;
+
+
 		StyledDocument document = this.txtSuspect.getStyledDocument();
 
 		Style styleNormal = this.txtSuspect.addStyle("Normal", null);
@@ -152,10 +159,10 @@ public class PanelPrincipal extends JPanel implements ActionListener
 
 		for (int i = 0; i < positionsDebut.length; i++)
 		{
-			int longueurDocument = document.getLength();
-			int positionDebut    = Math.min(positionsDebut[i], longueurDocument);
-			int positionFin      = Math.min(positionsFin[i], longueurDocument);
-			int longueur         = positionFin - positionDebut;
+			longueurDocument = document.getLength();
+			positionDebut    = Math.min(positionsDebut[i], longueurDocument);
+			positionFin      = Math.min(positionsFin  [i], longueurDocument);
+			longueur         = positionFin - positionDebut;
 
 			if (longueur > 0)
 			{
@@ -167,6 +174,7 @@ public class PanelPrincipal extends JPanel implements ActionListener
 	private String selectionnerFichier(String titre)
 	{
 		FileDialog dialogueFichier = new FileDialog((JFrame) null, titre, FileDialog.LOAD);
+		dialogueFichier.setFile("*.txt"); // Filtre
 		dialogueFichier.setVisible(true);
 
 		String nomFichier = dialogueFichier.getFile();
