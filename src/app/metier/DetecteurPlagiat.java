@@ -79,8 +79,8 @@ public class DetecteurPlagiat
 				int nombreMotsCorrespondants = 0;
 
 				while (indexMotOriginal + nombreMotsCorrespondants < lstMotsOriginal.size() && 
-				       indexMotSuspecte + nombreMotsCorrespondants < lstMotsSuspecte.size() && 
-				       lstMotsOriginal.get(indexMotOriginal + nombreMotsCorrespondants).equals(lstMotsSuspecte.get(indexMotSuspecte + nombreMotsCorrespondants)))
+					   indexMotSuspecte + nombreMotsCorrespondants < lstMotsSuspecte.size() && 
+					   lstMotsOriginal.get(indexMotOriginal + nombreMotsCorrespondants).equals(lstMotsSuspecte.get(indexMotSuspecte + nombreMotsCorrespondants)))
 				{
 					nombreMotsCorrespondants++;
 				}
@@ -141,6 +141,18 @@ public class DetecteurPlagiat
 		return this.tempsExecution;
 	}
 
+	/**
+	 * Extrait tous les mots d'au moins 3 caractères (lettres ou chiffres) du texte fourni,
+	 * en les ajoutant à la liste lstMots et en enregistrant la position de début de chaque mot
+	 * dans la liste lstPositions.
+	 *
+	 * Un mot est défini comme une séquence de caractères alphanumériques (lettres ou chiffres)
+	 * d'au moins 3 caractères, délimitée par des bornes de mots.
+	 *
+	 * @param texte        Le texte à analyser.
+	 * @param lstMots      La liste dans laquelle les mots extraits seront ajoutés (en minuscules).
+	 * @param lstPositions La liste dans laquelle les positions de début de chaque mot seront ajoutées.
+	 */
 	private void extraire(String texte, List<String> lstMots, List<Integer> lstPositions)
 	{
 		Matcher motsTrouves = Pattern.compile("\\b[\\p{L}\\d]{3,}\\b").matcher(texte.toLowerCase());
