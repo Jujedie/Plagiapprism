@@ -1,53 +1,57 @@
 package app;
 
-import app.metier.DifferencesFichiers;
+import app.metier.DetecteurPlagiat;
 
 import app.ihm.FramePrincipal;
 
 public class Controleur
 {
-	private DifferencesFichiers differencesFichiers;
+	private DetecteurPlagiat detecteur;
 
 	public Controleur()
 	{
-		this.differencesFichiers = new DifferencesFichiers();
-
+		this.detecteur = new DetecteurPlagiat();
 		new FramePrincipal(this);
 	}
 
-	public String getTexteGauche()
+	public String getTexteOriginal()
 	{
-		return this.differencesFichiers.getTexte1();
+		return this.detecteur.getTexteOriginal();
 	}
 
-	public String getTexteDroite()
+	public String getTexteSuspecte()
 	{
-		return this.differencesFichiers.getTexte2();
+		return this.detecteur.getTexteSuspecte();
 	}
 
-	public void setTextes(String pathFichier1, String pathFichier2)
+	public void chargerFichiers(String cheminFichier1, String cheminFichier2)
 	{
-		this.differencesFichiers.setTextes(pathFichier1, pathFichier2);
+		this.detecteur.chargerTextes(cheminFichier1, cheminFichier2);
 	}
 
 	public void analyser()
 	{
-		this.differencesFichiers.calculerSimilarite();
+		this.detecteur.detecterPlagiats();
 	}
 
-	public double getSimilarite()
+	public int getNombreSequencesPlagiees()
 	{
-		return this.differencesFichiers.calculerSimilarite();
+		return this.detecteur.getNombreSequences();
 	}
 
-	public String getInterpretation(double score)
+	public int[] getPositionsDebut()
 	{
-		return this.differencesFichiers.getInterpretation(score);
+		return this.detecteur.positionsDebut;
+	}
+
+	public int[] getPositionsFin()
+	{
+		return this.detecteur.positionsFin;
 	}
 
 	public long getTempsExecution()
 	{
-		return this.differencesFichiers.getTempsExecution();
+		return this.detecteur.getTempsExecution();
 	}
 
 	public static void main(String[] args)

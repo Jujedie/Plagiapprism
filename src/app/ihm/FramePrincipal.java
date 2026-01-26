@@ -10,7 +10,7 @@ public class FramePrincipal extends JFrame
 
 	public FramePrincipal(Controleur ctrl)
 	{
-		this.setTitle("Plagiapprism - Détection de plagiat");
+		this.setTitle("Plagiapprism - Détecteur de plagiat");
 		this.setSize(1500, 800);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
