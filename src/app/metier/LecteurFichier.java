@@ -1,10 +1,8 @@
 package app.metier;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.FileInputStream;
 
-import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
 
 public class LecteurFichier
 {
@@ -12,17 +10,18 @@ public class LecteurFichier
 	{
 		try
 		{
-			StringBuilder  contenu = new StringBuilder();
-			BufferedReader br      = new BufferedReader(new InputStreamReader(new FileInputStream(cheminFichier), StandardCharsets.UTF_8));
+			String txt = "";
+			Scanner sc = new Scanner ( new FileInputStream ( cheminFichier ), "UTF8" );
 
 			String ligne;
-			while ((ligne = br.readLine()) != null)
+			while (sc.hasNextLine())
 			{
-				contenu.append(ligne).append(" ");
+				ligne = sc.nextLine();
+				txt += ligne + "\n";
 			}
 
-			br.close();
-			return contenu.toString();
+			sc.close();
+			return txt;
 		}
 		catch (Exception e)
 		{
