@@ -41,12 +41,12 @@ public class Controleur
 
 	public int[] getPositionsDebut()
 	{
-		return this.detecteur.positionsDebut;
+		return this.detecteur.tabPositionsDebut;
 	}
 
 	public int[] getPositionsFin()
 	{
-		return this.detecteur.positionsFin;
+		return this.detecteur.tabPositionsFin;
 	}
 
 	public long getTempsExecution()

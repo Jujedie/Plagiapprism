@@ -13,8 +13,8 @@ public class DetecteurPlagiat
 	private String texteOriginal = "";
 	private String texteSuspecte = "";
 
-	public int[] positionsDebut = new int[0];
-	public int[] positionsFin   = new int[0];
+	public int[] tabPositionsDebut = new int[0];
+	public int[] tabPositionsFin   = new int[0];
 
 	private long tempsExecution = 0;
 
@@ -92,8 +92,8 @@ public class DetecteurPlagiat
 			}
 		}
 
-		this.positionsDebut = lstPositionsDebutPlagiat.stream().mapToInt(Integer::intValue).toArray();
-		this.positionsFin = lstPositionsFinPlagiat.stream().mapToInt(Integer::intValue).toArray();
+		this.tabPositionsDebut = lstPositionsDebutPlagiat.stream().mapToInt(Integer::intValue).toArray();
+		this.tabPositionsFin = lstPositionsFinPlagiat.stream().mapToInt(Integer::intValue).toArray();
 		this.tempsExecution = System.currentTimeMillis() - tempsDebut;
 	}
 
@@ -109,7 +109,7 @@ public class DetecteurPlagiat
 
 	public int getNombreSequences()
 	{
-		return this.positionsDebut.length;
+		return this.tabPositionsDebut.length;
 	}
 
 	public long getTempsExecution()
