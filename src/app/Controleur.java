@@ -29,9 +29,9 @@ public class Controleur
 		this.detecteur.chargerTextes(cheminFichier1, cheminFichier2);
 	}
 
-	public void analyser()
+	public void analyser(int nombreMotsMin)
 	{
-		this.detecteur.analyser();
+		this.detecteur.analyser(nombreMotsMin);
 	}
 
 	public int getNombreSequencesPlagiees()

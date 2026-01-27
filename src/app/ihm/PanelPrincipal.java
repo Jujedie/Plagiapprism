@@ -21,7 +21,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTextPane;
+import javax.swing.SpinnerNumberModel;
+
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
@@ -33,6 +36,8 @@ public class PanelPrincipal extends JPanel implements ActionListener
 	private JButton   btnChargerFichiers;
 	private JButton   btnAnalyser;
 	private JLabel    lblResultat;
+	private JSpinner  spinNombreMotsMin;
+	private JLabel    lblNombreMotsMin;
 
 	private JTextPane txtOriginal;
 	private JTextPane txtSuspect;
@@ -51,20 +56,23 @@ public class PanelPrincipal extends JPanel implements ActionListener
 		this.btnChargerFichiers = new JButton("Charger deux fichiers");
 		this.btnAnalyser = new JButton("Analyser");
 		this.lblResultat = new JLabel(" ");
+		this.lblNombreMotsMin = new JLabel("Mots min :");
+		this.spinNombreMotsMin = new JSpinner(new SpinnerNumberModel(8, 1, 50, 1));
 
 		this.txtOriginal = new JTextPane();
 		this.txtSuspect = new JTextPane();
 
-		panelHaut.setLayout  (new FlowLayout(FlowLayout.CENTER, 15, 5));
 		panelCentre.setLayout(new GridLayout(1, 2, 10, 0));
 		panelBas.setLayout   (new FlowLayout(FlowLayout.CENTER));
 
 		this.btnChargerFichiers.setPreferredSize(new Dimension(200, 35));
 		this.btnAnalyser       .setPreferredSize(new Dimension(200, 35));
+		this.spinNombreMotsMin .setPreferredSize(new Dimension(60, 35));
 
 		this.btnChargerFichiers.setFont(new Font("Arial", Font.BOLD  , 13));
 		this.btnAnalyser       .setFont(new Font("Arial", Font.BOLD  , 13));
 		this.lblResultat       .setFont(new Font("Arial", Font.ITALIC, 12));
+		this.lblNombreMotsMin  .setFont(new Font("Arial", Font.PLAIN , 12));
 
 
 		this.txtOriginal.setEditable(false);
@@ -78,8 +86,19 @@ public class PanelPrincipal extends JPanel implements ActionListener
 		scrollGauche.setBorder(BorderFactory.createTitledBorder("Texte original"));
 		scrollDroite.setBorder(BorderFactory.createTitledBorder("Texte suspect" ));
 
-		panelHaut.add(this.btnChargerFichiers);
-		panelHaut.add(this.btnAnalyser);
+		JPanel panelGauche = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
+		JPanel panelCentreHaut = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0));
+		JPanel panelDroit = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
+
+		panelGauche.add(this.btnChargerFichiers);
+		panelCentreHaut.add(this.btnAnalyser);
+		panelDroit.add(this.lblNombreMotsMin);
+		panelDroit.add(this.spinNombreMotsMin);
+
+		panelHaut.setLayout(new GridLayout(1, 3));
+		panelHaut.add(panelGauche);
+		panelHaut.add(panelCentreHaut);
+		panelHaut.add(panelDroit);
 
 		panelCentre.add(scrollGauche);
 		panelCentre.add(scrollDroite);
@@ -119,7 +138,8 @@ public class PanelPrincipal extends JPanel implements ActionListener
 		if (e.getSource() == this.btnAnalyser)
 		{
 			this.lblResultat.setText("  Analyse en cours...");
-			this.ctrl.analyser();
+			int nombreMotsMin = (int) this.spinNombreMotsMin.getValue();
+			this.ctrl.analyser(nombreMotsMin);
 			
 			int  nombreSequences = this.ctrl.getNombreSequencesPlagiees();
 			long tempsExecution  = this.ctrl.getTempsExecution();

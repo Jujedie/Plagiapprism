@@ -38,7 +38,7 @@ public class DetecteurPlagiat
 		this.texteSuspecte = DetecteurPlagiat.nettoyerTexte(this.texteSuspecte);
 	}
 
-	public void analyser()
+	public void analyser(int nombreMotsMin)
 	{
 		long tempsDebut = System.currentTimeMillis();
 
@@ -85,12 +85,11 @@ public class DetecteurPlagiat
 					nombreMotsCorrespondants++;
 				}
 
-				if (nombreMotsCorrespondants >= 8)
+				if (nombreMotsCorrespondants >= nombreMotsMin)
 				{
-					int positionDebut = lstPositionsMotsSuspecte.get(indexMotSuspecte);
-
 					int indexDernierMot = indexMotSuspecte + nombreMotsCorrespondants - 1;
-					int positionFin = lstPositionsMotsSuspecte.get(indexDernierMot) + lstMotsSuspecte.get(indexDernierMot).length();
+					int positionFin     = lstPositionsMotsSuspecte.get(indexDernierMot) + lstMotsSuspecte.get(indexDernierMot).length();
+					int positionDebut   = lstPositionsMotsSuspecte.get(indexMotSuspecte);
 
 					lstPositionsDebutPlagiat.add(positionDebut);
 					lstPositionsFinPlagiat.add(positionFin);
