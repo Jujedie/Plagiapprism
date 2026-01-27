@@ -85,7 +85,7 @@ public class DetecteurPlagiat
 					nombreMotsCorrespondants++;
 				}
 
-				if (nombreMotsCorrespondants >= 3)
+				if (nombreMotsCorrespondants >= 8)
 				{
 					int positionDebut = lstPositionsMotsSuspecte.get(indexMotSuspecte);
 
