@@ -172,7 +172,7 @@ public class DetecteurPlagiat
 		texteNettoye = texteNettoye.replaceAll("[ïî]"  , "i");
 		texteNettoye = texteNettoye.replaceAll("ô"     , "o");
 		texteNettoye = texteNettoye.replaceAll("[ùûü]" , "u");
-		texteNettoye = texteNettoye.replaceAll("[ç]"   , "c");
+		texteNettoye = texteNettoye.replaceAll("ç"     , "c");
 
 		return texteNettoye;
 	}
