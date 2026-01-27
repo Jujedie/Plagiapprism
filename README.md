@@ -25,16 +25,6 @@ chmod +x setup.sh
 setup.bat
 ```
 
-### Compilation et exécution manuelles
-
-```bash
-# Compilation
-javac -encoding UTF-8 -d bin src/app/*.java src/app/ihm/*.java src/app/metier/*.java
-
-# Exécution
-java -cp bin app.Controleur
-```
-
 ## Structure du projet
 
 ```
