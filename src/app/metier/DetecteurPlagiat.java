@@ -165,14 +165,47 @@ public class DetecteurPlagiat
 
 	private static String nettoyerTexte( String texte )
 	{
-		String texteNettoye = texte.toLowerCase();
+		String texteNettoye = "";
 
-		texteNettoye = texteNettoye.replaceAll("[àâä]" , "a");
-		texteNettoye = texteNettoye.replaceAll("[éèêë]", "e");
-		texteNettoye = texteNettoye.replaceAll("[ïî]"  , "i");
-		texteNettoye = texteNettoye.replaceAll("ô"     , "o");
-		texteNettoye = texteNettoye.replaceAll("[ùûü]" , "u");
-		texteNettoye = texteNettoye.replaceAll("ç"     , "c");
+		for (char caractere : texte.toCharArray())
+		{
+			if (Character.isLetterOrDigit(caractere) || Character.isWhitespace(caractere))
+			{
+				if (Character.isUpperCase(caractere))
+				{
+					caractere = Character.toLowerCase(caractere);
+				}
+				if ("àâä".indexOf(caractere) != -1)
+				{
+					caractere = 'a';
+				}
+				else if ("éèêë".indexOf(caractere) != -1)
+				{
+					caractere = 'e';
+				}
+				else if ("ïî".indexOf(caractere) != -1)
+				{
+					caractere = 'i';
+				}
+				else if (caractere == 'ô')
+				{
+					caractere = 'o';
+				}
+				else if ("ùûü".indexOf(caractere) != -1)
+				{
+					caractere = 'u';
+				}
+				else if (caractere == 'ç')
+				{
+					caractere = 'c';
+				}
+				texteNettoye += caractere;
+			}
+			else
+			{
+				texteNettoye += ' ';
+			}
+		}
 
 		return texteNettoye;
 	}
