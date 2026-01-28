@@ -46,7 +46,7 @@ src/app/
 L'algorithme utilise une approche par **indexation** pour optimiser la détection :
 
 1. **Nettoyage** : Normalisation du texte (minuscules + suppression accents)
-2. **Extraction** : Extraction des mots de 3+ caractères avec leurs positions (regex `\b[\p{L}\d]{3,}\b`)
+2. **Extraction** : Extraction de tous les mots avec leurs positions (regex `\b[\p{L}\d]+\b`)
 3. **Indexation** : Création d'une HashMap associant chaque mot à ses positions dans le texte original
 4. **Recherche** : Pour chaque mot du texte suspect, recherche dans la HashMap et extension des séquences
 5. **Filtrage** : Conservation uniquement des séquences ≥ seuil configuré
