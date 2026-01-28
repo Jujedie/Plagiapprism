@@ -32,10 +32,8 @@ public class DetecteurPlagiat
 
 	public void chargerTextes(String cheminFichier1, String cheminFichier2)
 	{
-		this.texteOriginal = LecteurFichier.lireFichier(cheminFichier1);
-		this.texteOriginal = DetecteurPlagiat.nettoyerTexte(this.texteOriginal);
-		this.texteSuspecte = LecteurFichier.lireFichier(cheminFichier2);
-		this.texteSuspecte = DetecteurPlagiat.nettoyerTexte(this.texteSuspecte);
+		this.texteOriginal = DetecteurPlagiat.nettoyerTexte(LecteurFichier.lireFichier(cheminFichier1));
+		this.texteSuspecte = DetecteurPlagiat.nettoyerTexte(LecteurFichier.lireFichier(cheminFichier2));
 	}
 
 	public void analyser(int nombreMotsMin)
