@@ -163,51 +163,24 @@ public class DetecteurPlagiat
 		}
 	}
 
-	private static String nettoyerTexte( String texte )
+	private static String nettoyerTexte(String texte)
 	{
-		String texteNettoye = "";
+		StringBuilder sb = new StringBuilder(texte.length());
 
-		for (char caractere : texte.toCharArray())
+		for (char caractere : texte.toLowerCase().toCharArray())
 		{
-			if (Character.isLetterOrDigit(caractere) || Character.isWhitespace(caractere))
+			switch (caractere)
 			{
-				if (Character.isUpperCase(caractere))
-				{
-					caractere = Character.toLowerCase(caractere);
-				}
-				
-				if ("àâä".indexOf(caractere) != -1)
-				{
-					caractere = 'a';
-				}
-				else if ("éèêë".indexOf(caractere) != -1)
-				{
-					caractere = 'e';
-				}
-				else if ("ïî".indexOf(caractere) != -1)
-				{
-					caractere = 'i';
-				}
-				else if (caractere == 'ô')
-				{
-					caractere = 'o';
-				}
-				else if ("ùûü".indexOf(caractere) != -1)
-				{
-					caractere = 'u';
-				}
-				else if (caractere == 'ç')
-				{
-					caractere = 'c';
-				}
-				texteNettoye += caractere;
-			}
-			else
-			{
-				texteNettoye += ' ';
+				case 'à', 'â', 'ä'      -> sb.append('a');
+				case 'é', 'è', 'ê', 'ë' -> sb.append('e');
+				case 'ï', 'î'           -> sb.append('i');
+				case 'ô'                -> sb.append('o');
+				case 'ù', 'û', 'ü'      -> sb.append('u');
+				case 'ç'                -> sb.append('c');
+				default                 -> sb.append(caractere);
 			}
 		}
 
-		return texteNettoye;
+		return sb.toString();
 	}
 }
