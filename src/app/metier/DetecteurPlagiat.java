@@ -175,6 +175,7 @@ public class DetecteurPlagiat
 				{
 					caractere = Character.toLowerCase(caractere);
 				}
+				
 				if ("àâä".indexOf(caractere) != -1)
 				{
 					caractere = 'a';
