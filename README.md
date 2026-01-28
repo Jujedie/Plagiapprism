@@ -54,8 +54,8 @@ L'algorithme utilise une approche par **indexation** pour optimiser la détectio
 
 ### Complexité
 
-- **Temps** : O(n × m × k) dans le cas moyen
+- **Temporelle** : O(n × m × k) dans le cas moyen & O(n²) dans le pire cas
   - n = nombre de mots du texte suspect
   - m = occurrences moyennes d'un mot dans l'original
   - k = longueur moyenne des séquences
-- **Espace** : O(n) pour la HashMap d'indexation
+- **Spatiale** : O(n) pour la HashMap d'indexation
