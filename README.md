@@ -1,61 +1,50 @@
 # Plagiapprism
 
-Application Java de détection de plagiat entre deux textes, développée pour les maisons d'édition.
+[cite_start]Application Java de détection de plagiat entre deux textes, développée pour analyser la similarité textuelle avec précision[cite: 9, 22].
 
-## Description
+---
 
-Plagiapprism analyse et compare deux documents textuels pour détecter les passages similaires. L'outil identifie automatiquement les séquences de mots identiques et les met en évidence dans une interface graphique intuitive.
+## I. Description du Projet
+[cite_start]Plagiapprism est un outil capable de détecter des suites de mots strictement identiques entre un texte original et un texte suspect[cite: 24]. [cite_start]L'application traite les textes en amont pour ignorer les problèmes de casse et d'accents[cite: 24]. [cite_start]Le résultat est présenté via une interface visuelle mettant en évidence les parties plagiées par surlignage[cite: 27].
 
-## Prérequis
+---
 
-- Java JDK 25 ou supérieur
+## II. Architecture du Projet (MVC)
+[cite_start]L'application repose sur une architecture **Modèle-Vue-Contrôleur** pour assurer une séparation nette entre les responsabilités[cite: 131]:
 
-## Lancement de l'application
+* [cite_start]**Modèle** : Gère la logique métier, notamment l'extraction des mots et l'exécution de l'algorithme de détection[cite: 131].
+* [cite_start]**Vue** : Interface graphique développée avec **Swing** et **AWT**, responsable de la saisie des textes et de l'affichage du surlignage[cite: 52, 131].
+* [cite_start]**Contrôleur** : Assure la coordination entre l'interface utilisateur et le moteur de calcul[cite: 131].
 
-### Scripts automatiques
+---
 
-**Linux/Mac :**
-```bash
-chmod +x setup.sh
-./setup.sh
-```
+## III. Fonctionnement de l'Algorithme
+L'analyse suit un processus structuré pour garantir rapidité et précision :
 
-**Windows :**
-```batch
-setup.bat
-```
+1.  [cite_start]**Initialisation** : Création des listes pour les mots et leurs positions respectives (original et suspect)[cite: 82].
+2.  [cite_start]**Extraction** : La méthode `extraire()` remplit ces listes en filtrant les mots d'au moins 3 caractères[cite: 83].
+3.  [cite_start]**Indexation** : Création d'une `HashMap` avec les mots du texte original comme clés et leurs positions comme valeurs[cite: 85].
+4.  [cite_start]**Détection** : Une boucle parcourt le texte suspect et compare les mots consécutifs dès qu'une correspondance est trouvée dans l'original[cite: 89, 90].
+5.  [cite_start]**Validation** : Une séquence est validée comme plagiat si elle atteint le nombre de mots minimal défini par l'utilisateur[cite: 91].
 
-## Structure du projet
+---
 
-```
-src/app/
-├── Controleur.java              # Point d'entrée et contrôleur MVC
-├── data/                        # Fichiers textes d'exemple
-├── ihm/                         # Interface utilisateur (Swing)
-│   ├── FramePrincipal.java
-│   └── PanelPrincipal.java
-└── metier/                      # Logique métier
-    ├── DetecteurPlagiat.java    # Algorithme de détection
-    └── LecteurFichier.java      # Lecture UTF-8
-```
+## IV. Profilage et Complexité
+[cite_start]Conformément aux analyses théoriques et pratiques effectuées[cite: 96]:
 
-## Algorithme de détection
+### Définitions des variables
+* [cite_start]$n$ : Nombre total de mots dans le **texte original**[cite: 98].
+* [cite_start]$m$ : Nombre total de mots dans le **texte suspecté**[cite: 99].
+* [cite_start]$k$ : Longueur moyenne des séquences de plagiat détectées[cite: 100].
 
-### Principe
+### Analyse de la complexité temporelle
+* [cite_start]**Complexité théorique** : $O(n \times m \times k)$[cite: 97].
+* [cite_start]**Pire des cas** : Si tout le texte suspecté correspond ($k = m$), la complexité peut atteindre $O(n \times m^2)$, voire $O(n^3)$ si $m \approx n$.
+* [cite_start]**Complexité réelle** : En pratique, l'algorithme tend vers **$O(n \times m)$** car la variable $k$ est souvent bornée (100-200 mots) et l'utilisation d'un tableau `motsDejaUtilises` empêche de retraiter des séquences déjà identifiées[cite: 121, 122, 123].
 
-L'algorithme utilise une approche par **indexation** pour optimiser la détection :
+---
 
-1. **Nettoyage** : Normalisation du texte (minuscules + suppression accents)
-2. **Extraction** : Extraction de tous les mots avec leurs positions (regex `\b[\p{L}\d]+\b`)
-3. **Indexation** : Création d'une HashMap associant chaque mot à ses positions dans le texte original
-4. **Recherche** : Pour chaque mot du texte suspect, recherche dans la HashMap et extension des séquences
-5. **Filtrage** : Conservation uniquement des séquences ≥ seuil configuré
-6. **Marquage** : Évite les doublons en marquant les mots déjà traités
-
-### Complexité
-
-- **Temporelle** : O(n × m × k) dans le cas moyen & O(n²) dans le pire cas
-  - n = nombre de mots du texte suspect
-  - m = occurrences moyennes d'un mot dans l'original
-  - k = longueur moyenne des séquences
-- **Spatiale** : O(n) pour la HashMap d'indexation
+## V. Choix Techniques
+* [cite_start]**IDE** : Visual Studio Code[cite: 50].
+* [cite_start]**Langage** : Java[cite: 51].
+* [cite_start]**Bibliothèques** : Swing, AWT, Util[cite: 52, 53].
