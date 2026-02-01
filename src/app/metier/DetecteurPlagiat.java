@@ -14,10 +14,9 @@ public class DetecteurPlagiat
 	private String texteSuspecte;
 
 	private int[] tabPositionsDebut;
-	private int[] tabPositionsFin  ;
+	private int[] tabPositionsFin;
 
 	private long tempsExecution;
-
 
 	public DetecteurPlagiat()
 	{
@@ -40,118 +39,109 @@ public class DetecteurPlagiat
 	{
 		long tempsDebut = System.currentTimeMillis();
 
-		if (texteOriginal.isEmpty() || texteSuspecte.isEmpty()) return;
+		if (texteOriginal.isEmpty() || texteSuspecte.isEmpty()) 
+		{
+			return;
+		}
 
-		List<String>  lstMotsOriginal          = new ArrayList<String >();
+		List<String>  lstMotsOriginal          = new ArrayList<String>();
 		List<Integer> lstPositionsMotsOriginal = new ArrayList<Integer>();
 		this.extraire(texteOriginal, lstMotsOriginal, lstPositionsMotsOriginal);
-		
-		List<String>  lstMotsSuspecte          = new ArrayList<String >();
+
+		List<String>  lstMotsSuspecte          = new ArrayList<String>();
 		List<Integer> lstPositionsMotsSuspecte = new ArrayList<Integer>();
 		this.extraire(texteSuspecte, lstMotsSuspecte, lstPositionsMotsSuspecte);
 
+		// On crée une Map (Dictionnaire) : Clé = Mot, Valeur = Liste des positions (index) où il apparaît
 		Map<String, List<Integer>> mapIndexMotsOriginal = new HashMap<String, List<Integer>>();
 		for (int indexMot = 0; indexMot < lstMotsOriginal.size(); indexMot++)
 		{
 			String mot = lstMotsOriginal.get(indexMot);
+			// Si le mot n'est pas dans la Map, on crée une nouvelle liste, puis on ajoute l'index actuel
 			mapIndexMotsOriginal.computeIfAbsent(mot, k -> new ArrayList<Integer>()).add(indexMot);
 		}
 
+		// Listes temporaires pour stocker les résultats trouvés
 		List<Integer> lstPositionsDebutPlagiat = new ArrayList<Integer>();
 		List<Integer> lstPositionsFinPlagiat   = new ArrayList<Integer>();
 
+		// Tableau pour marquer les mots déjà identifiés comme plagiat
 		boolean[] motsDejaUtilises = new boolean[lstMotsSuspecte.size()];
 
+		// On parcourt chaque mot du texte suspect
 		for (int indexMotSuspecte = 0; indexMotSuspecte < lstMotsSuspecte.size(); indexMotSuspecte++)
 		{
+			// Si le mot fait déjà partie d'une séquence de plagiat détectée, on passe au suivant
 			if (motsDejaUtilises[indexMotSuspecte])
+			{
 				continue;
+			}
 
 			String motActuel = lstMotsSuspecte.get(indexMotSuspecte);
 
+			// Si le mot n'existe même pas dans l'original, inutile de chercher une suite
 			if (!mapIndexMotsOriginal.containsKey(motActuel)) 
+			{
 				continue;
+			}
 
+			// Pour chaque endroit où ce mot apparaît dans le texte original
 			for (int indexMotOriginal : mapIndexMotsOriginal.get(motActuel))
 			{
 				int nombreMotsCorrespondants = 0;
 
+				// Tant que les mots se suivent et sont identiques dans les deux textes
 				while (indexMotOriginal + nombreMotsCorrespondants < lstMotsOriginal.size() && 
-					   indexMotSuspecte + nombreMotsCorrespondants < lstMotsSuspecte.size() && 
-					   lstMotsOriginal.get(indexMotOriginal + nombreMotsCorrespondants).equals(lstMotsSuspecte.get(indexMotSuspecte + nombreMotsCorrespondants)))
+					indexMotSuspecte + nombreMotsCorrespondants < lstMotsSuspecte.size() && 
+					lstMotsOriginal.get(indexMotOriginal + nombreMotsCorrespondants)
+									.equals(lstMotsSuspecte.get(indexMotSuspecte + nombreMotsCorrespondants)))
 				{
 					nombreMotsCorrespondants++;
 				}
 
+				// Si la longueur de la suite trouvée dépasse le seuil minimum pour être considérée comme du plagiat
 				if (nombreMotsCorrespondants >= nombreMotsMin)
 				{
+					// Calcul de la position de fin (position début du dernier mot + sa longueur)
 					int indexDernierMot = indexMotSuspecte + nombreMotsCorrespondants - 1;
 					int positionFin     = lstPositionsMotsSuspecte.get(indexDernierMot) + lstMotsSuspecte.get(indexDernierMot).length();
 					int positionDebut   = lstPositionsMotsSuspecte.get(indexMotSuspecte);
 
+					// Enregistrement des coordonnées du bloc plagié
 					lstPositionsDebutPlagiat.add(positionDebut);
 					lstPositionsFinPlagiat.add(positionFin);
 
+					// Marquage des mots comme "utilisés" pour ne pas les recompter
 					for (int decalage = 0; decalage < nombreMotsCorrespondants; decalage++)
 					{
 						motsDejaUtilises[indexMotSuspecte + decalage] = true;
 					}
 
+					// On saute les mots déjà traités dans la boucle principale
 					indexMotSuspecte += nombreMotsCorrespondants - 1;
 					break;
 				}
 			}
 		}
 
+		// Conversion des listes en tableaux de int pour un accès plus rapide par l'interface
 		this.tabPositionsDebut = lstPositionsDebutPlagiat.stream().mapToInt(Integer::intValue).toArray();
-		this.tabPositionsFin = lstPositionsFinPlagiat.stream().mapToInt(Integer::intValue).toArray();
+		this.tabPositionsFin   = lstPositionsFinPlagiat.stream().mapToInt(Integer::intValue).toArray();
+
+		// Calcul du temps total d'exécution
 		this.tempsExecution = System.currentTimeMillis() - tempsDebut;
 	}
 
-	public String getTexteOriginal()
-	{
-		return this.texteOriginal;
-	}
+	public String getTexteOriginal()     { return this.texteOriginal;            }
+	public String getTexteSuspecte()     { return this.texteSuspecte;            }
+	public int[]  getTabPositionsDebut() { return this.tabPositionsDebut;        }
+	public int[]  getTabPositionsFin()   { return this.tabPositionsFin;          }
+	public int    getNombreSequences()   { return this.tabPositionsDebut.length; }
+	public long   getTempsExecution()    { return this.tempsExecution;           }
 
-	public String getTexteSuspecte()
-	{
-		return this.texteSuspecte;
-	}
-
-	public int[] getTabPositionsDebut()
-	{
-		return this.tabPositionsDebut;
-	}
-
-	public int[] getTabPositionsFin()
-	{
-		return this.tabPositionsFin;
-	}
-
-	public int getNombreSequences()
-	{
-		return this.tabPositionsDebut.length;
-	}
-
-	public long getTempsExecution()
-	{
-		return this.tempsExecution;
-	}
-
-	/**
-	 * Extrait tous les mots (lettres ou chiffres) du texte fourni,
-	 * en les ajoutant à la liste lstMots et en enregistrant la position de début de chaque mot
-	 * dans la liste lstPositions.
-	 *
-	 * Un mot est défini comme une séquence de caractères alphanumériques (lettres ou chiffres)
-	 * délimitée par des bornes de mots.
-	 *
-	 * @param texte        Le texte à analyser.
-	 * @param lstMots      La liste dans laquelle les mots extraits seront ajoutés (en minuscules).
-	 * @param lstPositions La liste dans laquelle les positions de début de chaque mot seront ajoutées.
-	 */
 	private void extraire(String texte, List<String> lstMots, List<Integer> lstPositions)
 	{
+		// Utilise une expression régulière pour extraire les mots + passage en minuscules pour ignorer la casse
 		Matcher motsTrouves = Pattern.compile("\\b[\\p{L}\\d]+\\b").matcher(texte.toLowerCase());
 
 		while (motsTrouves.find())
@@ -161,8 +151,11 @@ public class DetecteurPlagiat
 		}
 	}
 
+	// Remplace les caractères ayant des accents par leur équivalent sans accent
 	private static String nettoyerTexte(String texte)
 	{
+		if (texte == null) return "";
+		
 		StringBuilder sb = new StringBuilder(texte.length());
 
 		for (char caractere : texte.toLowerCase().toCharArray())
